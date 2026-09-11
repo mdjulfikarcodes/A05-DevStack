@@ -6,7 +6,7 @@ const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-gray-100 bg-whit">
+    <nav className="sticky top-0 z-50 border-b border-gray-100 bg-white">
       <div className="container mx-auto flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
 
         {/* Hamburger - Mobile */}
