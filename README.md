@@ -26,7 +26,7 @@ JSX makes React code easier to read and understand because we can write the UI s
 
 For example:
 
-const heading = <h1>Hello React</h1>;
+const heading = <h1>Hello React</h1>
 
 I used JSX in this project to create the user interface and display the technology cards and stack section.
 
@@ -145,8 +145,7 @@ For example, the parent can pass a technology to a child:
 The child receives it through props:
 
 function TechnologyCard({ technology }) {
-  return <h2>{technology.name}</h2>;
-}
+  return <h2>{technology.name}</h2>;}
 
 If the child needs to send an action back to the parent, the parent can pass a callback function:
 
