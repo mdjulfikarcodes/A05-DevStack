@@ -55,6 +55,9 @@ function TechnologyCard() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [stack, setStack] = useState<Technology[]>([]);
 
+  // Loading state added
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     fetch("/data.json")
       .then((response) => {
@@ -66,9 +69,11 @@ function TechnologyCard() {
       })
       .then((data: Technology[]) => {
         setTechnologies(data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching technologies:", error);
+        setLoading(false);
       });
   }, []);
 
@@ -124,155 +129,165 @@ function TechnologyCard() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_200px]">
+        {loading ? (
+          // Loading State
+          <div className="flex min-h-62.5 items-center justify-center">
+            <p className="text-sm font-medium text-slate-500">
+              Loading technologies...
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_200px]">
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
 
-            {technologies.map((technology) => {
-              const isSelected = stack.some(
-                (item) => item.id === technology.id
-              );
+              {technologies.map((technology) => {
+                const isSelected = stack.some(
+                  (item) => item.id === technology.id
+                );
 
-              return (
-                <div
-                  key={technology.id}
-                  className={`flex min-h-62.5 flex-col rounded-xl border bg-white p-3 shadow-sm transition-all duration-200 ${
-                    isSelected
-                      ? "border-[#d91b7e] shadow-md"
-                      : "border-slate-200 hover:-translate-y-0.5 hover:shadow-md"
-                  }`}
-                >
-
-                  <div className="mb-5 flex items-center justify-between">
-                    <div>
-                      {icons[technology.icon]}
-                    </div>
-
-                    <span className="rounded-full bg-pink-50 px-2 py-1 text-[9px] font-medium text-[#d91b7e]">
-                      {technology.badge}
-                    </span>
-                  </div>
-
-                  <h2 className="text-[20px] font-bold text-slate-800">
-                    {technology.name}
-                  </h2>
-
-                  <p className="mt-2 min-h-12 text-[15px] leading-4 text-slate-400">
-                    {technology.description}
-                  </p>
-
-                  <div className="mt-7 flex items-center justify-between gap-2">
-
-                    <span className="rounded bg-slate-50 px-2 py-1 text-[12px] text-slate-500">
-                      {technology.category}
-                    </span>
-
-                    <span className="text-[10px] text-slate-500">
-                      {technology.difficulty}
-                    </span>
-
-                    <span className="flex items-center gap-1 text-[11px] font-medium text-slate-700">
-                      <MdOutlineStar className="text-yellow-400" />
-                      {technology.rating}
-                    </span>
-
-                  </div>
-
-                  <button
-                    onClick={() => handleAddToStack(technology)}
-                    disabled={isSelected}
-                    className={`mt-3 w-full rounded-md py-2 text-[12px] font-medium transition ${
+                return (
+                  <div
+                    key={technology.id}
+                    className={`flex min-h-62.5 flex-col rounded-xl border bg-white p-3 shadow-sm transition-all duration-200 ${
                       isSelected
-                        ? "cursor-not-allowed bg-slate-900 text-[#d91b7e]"
-                        : "cursor-pointer bg-slate-900 text-white hover:bg-slate-800"
+                        ? "border-[#d91b7e] shadow-md"
+                        : "border-slate-200 hover:-translate-y-0.5 hover:shadow-md"
                     }`}
                   >
-                    {isSelected
-                      ? "✓ Added to Stack"
-                      : "Add to Stack"}
-                  </button>
 
-                </div>
-              );
-            })}
-
-          </div>
-
-          <div className="h-fit rounded-xl border border-slate-200 bg-white p-3 shadow-sm lg:sticky lg:top-5">
-
-            <h2 className="text-sm font-bold text-slate-800">
-              Your Stack
-            </h2>
-
-            <p className="mt-1 text-[9px] text-slate-400">
-              {stack.length} Technology Selected
-            </p>
-
-            <div className="mt-3 space-y-2">
-
-              {stack.length === 0 ? (
-
-                <div className="rounded-md border border-dashed border-slate-200 p-4 text-center">
-                  <p className="text-[9px] text-slate-400">
-                    Your Stack is empty
-                  </p>
-                </div>
-
-              ) : (
-
-                stack.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex items-center justify-between rounded-md border border-slate-200 p-2"
-                  >
-
-                    <div className="flex items-center gap-2">
-
+                    <div className="mb-5 flex items-center justify-between">
                       <div>
-                        {icons[item.icon]}
+                        {icons[technology.icon]}
                       </div>
 
-                      <div>
-                        <p className="text-[10px] font-semibold text-slate-700">
-                          {item.name}
-                        </p>
+                      <span className="rounded-full bg-pink-50 px-2 py-1 text-[9px] font-medium text-[#d91b7e]">
+                        {technology.badge}
+                      </span>
+                    </div>
 
-                        <p className="text-[7px] text-slate-400">
-                          {item.category}
-                        </p>
-                      </div>
+                    <h2 className="text-[20px] font-bold text-slate-800">
+                      {technology.name}
+                    </h2>
+
+                    <p className="mt-2 min-h-12 text-[15px] leading-4 text-slate-400">
+                      {technology.description}
+                    </p>
+
+                    <div className="mt-7 flex items-center justify-between gap-2">
+
+                      <span className="rounded bg-slate-50 px-2 py-1 text-[12px] text-slate-500">
+                        {technology.category}
+                      </span>
+
+                      <span className="text-[10px] text-slate-500">
+                        {technology.difficulty}
+                      </span>
+
+                      <span className="flex items-center gap-1 text-[11px] font-medium text-slate-700">
+                        <MdOutlineStar className="text-yellow-400" />
+                        {technology.rating}
+                      </span>
 
                     </div>
 
                     <button
-                      onClick={() => handleRemove(item.id)}
-                      className="cursor-pointer text-sm text-slate-400 transition hover:text-[#d91b7e]"
+                      onClick={() => handleAddToStack(technology)}
+                      disabled={isSelected}
+                      className={`mt-3 w-full rounded-md py-2 text-[12px] font-medium transition ${
+                        isSelected
+                          ? "cursor-not-allowed bg-slate-900 text-[#d91b7e]"
+                          : "cursor-pointer bg-slate-900 text-white hover:bg-slate-800"
+                      }`}
                     >
-                      <RxCross2 />
+                      {isSelected
+                        ? "✓ Added to Stack"
+                        : "Add to Stack"}
                     </button>
 
                   </div>
-                ))
-
-              )}
+                );
+              })}
 
             </div>
 
-            <button
-              onClick={handleRemoveAll}
-              disabled={stack.length === 0}
-              className={`mt-5 w-full rounded-md border py-2 text-[9px] font-medium transition ${
-                stack.length === 0
-                  ? "cursor-not-allowed border-slate-200 text-slate-300"
-                  : "cursor-pointer border-[#d91b7e] text-[#d91b7e] hover:bg-pink-50"
-              }`}
-            >
-              Remove All
-            </button>
+            <div className="h-fit rounded-xl border border-slate-200 bg-white p-3 shadow-sm lg:sticky lg:top-5">
+
+              <h2 className="text-sm font-bold text-slate-800">
+                Your Stack
+              </h2>
+
+              <p className="mt-1 text-[9px] text-slate-400">
+                {stack.length} Technology Selected
+              </p>
+
+              <div className="mt-3 space-y-2">
+
+                {stack.length === 0 ? (
+
+                  <div className="rounded-md border border-dashed border-slate-200 p-4 text-center">
+                    <p className="text-[9px] text-slate-400">
+                      Your Stack is empty
+                    </p>
+                  </div>
+
+                ) : (
+
+                  stack.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between rounded-md border border-slate-200 p-2"
+                    >
+
+                      <div className="flex items-center gap-2">
+
+                        <div>
+                          {icons[item.icon]}
+                        </div>
+
+                        <div>
+                          <p className="text-[10px] font-semibold text-slate-700">
+                            {item.name}
+                          </p>
+
+                          <p className="text-[7px] text-slate-400">
+                            {item.category}
+                          </p>
+                        </div>
+
+                      </div>
+
+                      <button
+                        onClick={() => handleRemove(item.id)}
+                        className="cursor-pointer text-sm text-slate-400 transition hover:text-[#d91b7e]"
+                      >
+                        <RxCross2 />
+                      </button>
+
+                    </div>
+                  ))
+
+                )}
+
+              </div>
+
+              <button
+                onClick={handleRemoveAll}
+                disabled={stack.length === 0}
+                className={`mt-5 w-full rounded-md border py-2 text-[9px] font-medium transition ${
+                  stack.length === 0
+                    ? "cursor-not-allowed border-slate-200 text-slate-300"
+                    : "cursor-pointer border-[#d91b7e] text-[#d91b7e] hover:bg-pink-50"
+                }`}
+              >
+                Remove All
+              </button>
+
+            </div>
 
           </div>
+        )}
 
-        </div>
       </div>
 
       <ToastContainer

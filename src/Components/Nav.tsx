@@ -21,7 +21,7 @@ const Nav = () => {
         <img
           src={logo}
           alt="DevStack"
-          className="w-24 sm:w-28 md:w-32 lg:w-auto mx-0.4"
+          className="bg-(--brand-gradient) bg-clip-text text-transparent"
         />
 
         {/* Desktop Menu */}
