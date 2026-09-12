@@ -12,7 +12,7 @@ const Nav = () => {
         {/* Hamburger - Mobile */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-xl text-gray-600 lg:hidden"
+          className="text-xl lg:hidden"
         >
           <img src={hamburger} alt=""  className=""/>
         </button>
@@ -21,7 +21,7 @@ const Nav = () => {
         <img
           src={logo}
           alt="DevStack"
-          className="w-24 sm:w-28 md:w-32 lg:w-auto"
+          className="w-24 sm:w-28 md:w-32 lg:w-auto mx-0.4"
         />
 
         {/* Desktop Menu */}
@@ -52,8 +52,8 @@ const Nav = () => {
         {/* Buttons */}
         <div className="flex items-center gap-1 sm:gap-2 border-0 lg:hover:not-[]:">
 
-          <div className="flex items-center gap-1 mx-5.5">
-  <button className="btn btn-ghost btn-sm">
+          <div className="flex items-center gap-1 mx-2">
+  <button className="mx-2 font-semibold text-[13px] cursor-pointer">
     Sign In
   </button>
 

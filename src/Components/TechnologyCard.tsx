@@ -5,11 +5,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
-  FaVuejs,
   FaNodeJs,
   FaJava,
   FaDocker,
-  FaRegStar,
+  FaReact,
 } from "react-icons/fa";
 
 import { MdOutlineStar } from "react-icons/md";
@@ -18,32 +17,33 @@ import { RxCross2 } from "react-icons/rx";
 import {
   SiSvelte,
   SiNextdotjs,
-  SiRedis,
   SiPostgresql,
   SiJavascript,
   SiTypescript,
   SiTailwindcss,
 } from "react-icons/si";
+import { RiVuejsFill } from "react-icons/ri";
+import { DiRedis } from "react-icons/di";
 
 interface Technology {
   id: number;
   name: string;
   description: string;
   category: string;
-  level: string;
+  difficulty?: string;
   rating: number;
   badge: string;
   icon: string;
 }
 
 const icons: Record<string, ReactNode> = {
-  react: <FaRegStar className="text-2xl text-cyan-400" />,
-  vue: <FaVuejs className="text-2xl text-green-500" />,
+  react: <FaReact className="text-2xl text-cyan-400" />,
+  vue: <RiVuejsFill className="text-2xl text-green-600" />,
   svelte: <SiSvelte className="text-2xl text-orange-500" />,
   nextjs: <SiNextdotjs className="text-2xl text-black" />,
   nodejs: <FaNodeJs className="text-2xl text-green-500" />,
   postgresql: <SiPostgresql className="text-2xl text-blue-700" />,
-  redis: <SiRedis className="text-2xl text-red-500" />,
+  redis: <DiRedis className="text-2xl text-red-500" />,
   javascript: <SiJavascript className="text-2xl text-yellow-400" />,
   typescript: <SiTypescript className="text-2xl text-blue-500" />,
   java: <FaJava className="text-2xl text-red-500" />,
@@ -168,7 +168,7 @@ function TechnologyCard() {
                     </span>
 
                     <span className="text-[10px] text-slate-500">
-                      {technology.level}
+                      {technology.difficulty}
                     </span>
 
                     <span className="flex items-center gap-1 text-[11px] font-medium text-slate-700">
@@ -188,7 +188,7 @@ function TechnologyCard() {
                     }`}
                   >
                     {isSelected
-                      ? "Added to Stack"
+                      ? "✓ Added to Stack"
                       : "Add to Stack"}
                   </button>
 
@@ -214,7 +214,7 @@ function TechnologyCard() {
 
                 <div className="rounded-md border border-dashed border-slate-200 p-4 text-center">
                   <p className="text-[9px] text-slate-400">
-                    No technology selected
+                    Your Stack is empty
                   </p>
                 </div>
 
