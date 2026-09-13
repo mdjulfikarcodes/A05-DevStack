@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+
 import type { ReactNode } from "react";
 
 import { ToastContainer, toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 
 import {
@@ -12,6 +14,7 @@ import {
 } from "react-icons/fa";
 
 import { MdOutlineStar } from "react-icons/md";
+
 import { RxCross2 } from "react-icons/rx";
 
 import {
@@ -22,7 +25,9 @@ import {
   SiTypescript,
   SiTailwindcss,
 } from "react-icons/si";
+
 import { RiVuejsFill } from "react-icons/ri";
+
 import { DiRedis } from "react-icons/di";
 
 interface Technology {
@@ -37,7 +42,7 @@ interface Technology {
 }
 
 const icons: Record<string, ReactNode> = {
-  react: <FaReact className="text-2xl text-cyan-400" />,
+  react: <FaReact className="text-2xl text-[#61DAFB]" />,
   vue: <RiVuejsFill className="text-2xl text-green-600" />,
   svelte: <SiSvelte className="text-2xl text-orange-500" />,
   nextjs: <SiNextdotjs className="text-2xl text-black" />,
@@ -53,7 +58,11 @@ const icons: Record<string, ReactNode> = {
 
 function TechnologyCard() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
-  const [stack, setStack] = useState<Technology[]>([]);
+
+  const [stack, setStack] = useState<Technology[]>(() => {
+    const savedStack = localStorage.getItem("technologyStack");
+    return savedStack ? JSON.parse(savedStack) : [];
+  });
 
   // Loading state added
   const [loading, setLoading] = useState(true);
@@ -77,19 +86,31 @@ function TechnologyCard() {
       });
   }, []);
 
+  // Save selected technologies to localStorage
+  useEffect(() => {
+    localStorage.setItem(
+      "technologyStack",
+      JSON.stringify(stack)
+    );
+  }, [stack]);
+
   const handleAddToStack = (technology: Technology) => {
     const alreadyAdded = stack.some(
       (item) => item.id === technology.id
     );
 
     if (alreadyAdded) {
-      toast.warning(`${technology.name} is already in your stack!`);
+      toast.warning(
+        `${technology.name} is already in your stack!`
+      );
       return;
     }
 
     setStack([...stack, technology]);
 
-    toast.success(`${technology.name} added to your stack!`);
+    toast.success(
+      `${technology.name} added to your stack!`
+    );
   };
 
   const handleRemove = (id: number) => {
@@ -97,10 +118,14 @@ function TechnologyCard() {
       (item) => item.id === id
     );
 
-    setStack(stack.filter((item) => item.id !== id));
+    setStack(
+      stack.filter((item) => item.id !== id)
+    );
 
     if (removedTechnology) {
-      toast.info(`${removedTechnology.name} removed from your stack!`);
+      toast.info(
+        `${removedTechnology.name} removed from your stack!`
+      );
     }
   };
 
@@ -111,17 +136,24 @@ function TechnologyCard() {
 
     setStack([]);
 
-    toast.info("All technologies removed from your stack!");
+    toast.info(
+      "All technologies removed from your stack!"
+    );
   };
 
   return (
-    <div className="min-h-screen bg-white px-4 py-8 md:px-8 lg:px-12">
+    <div
+      id="technologies"
+      className="min-h-screen bg-white px-4 py-8 md:px-8 lg:px-12"
+    >
       <div className="mx-auto max-w-7xl">
 
         <div className="mb-7">
           <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
             Explore the{" "}
-            <span className="text-[#d91b7e]">Technologies</span>
+            <span className="text-[#d91b7e]">
+              Technologies
+            </span>
           </h1>
 
           <p className="mt-1 text-sm text-slate-400">
@@ -139,6 +171,7 @@ function TechnologyCard() {
         ) : (
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_200px]">
 
+            {/* Technology Cards */}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
 
               {technologies.map((technology) => {
@@ -156,24 +189,56 @@ function TechnologyCard() {
                     }`}
                   >
 
+                    {/* Icon & Badge */}
                     <div className="mb-5 flex items-center justify-between">
+
                       <div>
                         {icons[technology.icon]}
                       </div>
 
-                      <span className="rounded-full bg-pink-50 px-2 py-1 text-[9px] font-medium text-[#d91b7e]">
+                      <span
+                        className={`rounded-full px-2 py-1 text-[9px] font-medium ${
+                          technology.badge === "Popular"
+                            ? "bg-blue-50 text-blue-500"
+                            : technology.badge === "Versatile"
+                            ? "bg-emerald-50 text-emerald-500"
+                            : technology.badge === "Fast"
+                            ? "bg-orange-50 text-orange-500"
+                            : technology.badge === "Standard"
+                            ? "bg-emerald-50 text-emerald-500"
+                            : technology.badge === "Top SQL"
+                            ? "bg-blue-50 text-blue-500"
+                            : technology.badge === "Cache"
+                            ? "bg-red-50 text-red-500"
+                            : technology.badge === "Ubiquitous"
+                            ? "bg-amber-50 text-amber-500"
+                            : technology.badge === "Essential"
+                            ? "bg-blue-50 text-blue-500"
+                            : technology.badge === "Robust"
+                            ? "bg-purple-50 text-purple-500"
+                            : technology.badge === "Modern"
+                            ? "bg-cyan-50 text-cyan-500"
+                            : technology.badge === "Containers"
+                            ? "bg-indigo-50 text-indigo-500"
+                            : "bg-pink-50 text-[#d91b7e]"
+                        }`}
+                      >
                         {technology.badge}
                       </span>
+
                     </div>
 
+                    {/* Technology Name */}
                     <h2 className="text-[20px] font-bold text-slate-800">
                       {technology.name}
                     </h2>
 
+                    {/* Description */}
                     <p className="mt-2 min-h-12 text-[15px] leading-4 text-slate-400">
                       {technology.description}
                     </p>
 
+                    {/* Category, Difficulty & Rating */}
                     <div className="mt-7 flex items-center justify-between gap-2">
 
                       <span className="rounded bg-slate-50 px-2 py-1 text-[12px] text-slate-500">
@@ -191,8 +256,11 @@ function TechnologyCard() {
 
                     </div>
 
+                    {/* Add Button */}
                     <button
-                      onClick={() => handleAddToStack(technology)}
+                      onClick={() =>
+                        handleAddToStack(technology)
+                      }
                       disabled={isSelected}
                       className={`mt-3 w-full rounded-md py-2 text-[12px] font-medium transition ${
                         isSelected
@@ -211,7 +279,8 @@ function TechnologyCard() {
 
             </div>
 
-            <div className="h-fit rounded-xl border border-slate-200 bg-white p-5  shadow-sm lg:sticky lg:top-15">
+            {/* Your Stack */}
+            <div className="h-fit rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-15">
 
               <h2 className="text-sm font-bold text-slate-800">
                 Your Stack
@@ -258,7 +327,9 @@ function TechnologyCard() {
                       </div>
 
                       <button
-                        onClick={() => handleRemove(item.id)}
+                        onClick={() =>
+                          handleRemove(item.id)
+                        }
                         className="cursor-pointer text-sm text-slate-400 transition hover:text-[#d91b7e]"
                       >
                         <RxCross2 />
@@ -271,6 +342,7 @@ function TechnologyCard() {
 
               </div>
 
+              {/* Remove All */}
               <button
                 onClick={handleRemoveAll}
                 disabled={stack.length === 0}
@@ -290,6 +362,7 @@ function TechnologyCard() {
 
       </div>
 
+      {/* Toast Notifications */}
       <ToastContainer
         position="bottom-right"
         autoClose={2000}
@@ -299,6 +372,7 @@ function TechnologyCard() {
         draggable
         theme="light"
       />
+
     </div>
   );
 }

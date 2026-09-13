@@ -27,25 +27,25 @@ const Nav = () => {
         {/* Desktop Menu */}
         <ul className="hidden items-center gap-4 font-semibold md:gap-6 lg:flex">
           <li>
-            <a href="" className="text-[#d91b7e]">
+            <a href="#" className="text-[#d91b7e]">
               Home
             </a>
           </li>
 
           <li>
-            <a href="">Technologies</a>
+            <a href="#">Technologies</a>
           </li>
 
           <li>
-            <a href="">Project</a>
+            <a href="#">Project</a>
           </li>
 
           <li>
-            <a href="">About</a>
+            <a href="#">About</a>
           </li>
 
           <li>
-            <a href="">Contact</a>
+            <a href="#">Contact</a>
           </li>
         </ul>
 

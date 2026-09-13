@@ -35,7 +35,7 @@ const Banner = () => {
                 Build Your Ideal
               </span>
 
-              <span className="block bg-linear-to-r from-orange-500 via-pink-500 to-purple-600 bg-clip-text text-transparent">
+              <span className="block bg-linear-to-r from-[#FF5722] via-[#D81B7E] to-[#7C3AED] bg-clip-text text-transparent">
                 Development Stack
               </span>
 
@@ -54,7 +54,7 @@ const Banner = () => {
                 onClick={handleExplore}
                 className="
                   rounded-lg
-                  bg-linear-to-r from-orange-500 to-pink-500
+                  block bg-linear-to-r from-[#FF5722] to-[#EC4899]
                   px-4 sm:px-5
                   py-2.5
                   text-sm font-semibold text-white
