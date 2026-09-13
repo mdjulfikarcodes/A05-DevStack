@@ -211,7 +211,7 @@ function TechnologyCard() {
 
             </div>
 
-            <div className="h-fit rounded-xl border border-slate-200 bg-white p-3 shadow-sm lg:sticky lg:top-5">
+            <div className="h-fit rounded-xl border border-slate-200 bg-white p-5  shadow-sm lg:sticky lg:top-15">
 
               <h2 className="text-sm font-bold text-slate-800">
                 Your Stack
